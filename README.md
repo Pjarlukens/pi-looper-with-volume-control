@@ -1,8 +1,8 @@
 # raspi-looper
-Simple 4 track looper for Raspberry Pi. Uses pyaudio.
+Simple 4 track looper for Raspberry Pi with 4 potentiometers wich controls the volume on each track. Uses pyaudio.
 
 Uses a USB soundcard probably.
-Uses 8 buttons (push-to-connect) and 8 LEDs to trigger and indicate playback and recording on 4 tracks.
+Uses 8 buttons (push-to-connect) and 8 LEDs to trigger and indicate playback and recording on 4 tracks and uses 4 10k linear potentiometers
 One leg of each button goes to ground, as does the negative side of each LED.
 The free legs of the buttons are connected as in gpio_connections.txt
 The positive side of the LEDs are connected through 100Ohm current-limiting resistors to gpio pins as in gpio_connections.txt
@@ -11,7 +11,7 @@ Instructions (Setup):
 Run devices.py first to check device index of your soundcard. Probably 1.
 Run settings.py which edits Config/settings.prt
 You can run latency.py to measure your round trip latency and update the value.
-Run main.py to loop. You can add it to your .bashrc to run on boot.
+Run looper.py to loop. You can add it to your .bashrc to run on boot.
 May be a good idea to tweak ALSA and Pulse audio configuration files as needed.
 
 Buttons' Functions:
@@ -22,13 +22,13 @@ Buttons' Functions:
     Hold 'play' on track 1: Quit and start new looping session.
     Hold 'play' on track 4: Quit but don't restart (useful for making changes to your Raspberry Pi)
 
-Demo in YouTube video: [Demo Video](https://youtu.be/0FDovuCira8)
+
 
 ## Installation Instructions
 (assumes a fresh install of Raspberry Pi OS)
 
 1. Clone this repository:
-    ```git clone https://github.com/RandomVertebrate/raspi-looper```
+    ```git clone https://github.com/Pjarlukens/pi-looper-with-volume-control```
 
 2. Install Python3-PyAudio:
     ```sudo apt install python3-pyaudio```
@@ -57,4 +57,4 @@ Demo in YouTube video: [Demo Video](https://youtu.be/0FDovuCira8)
     Add the following lines at the end of the file:
     >cd /home/pi/raspi-looper
     
-    >sudo python3 main.py
+    >sudo python3 looper.py
