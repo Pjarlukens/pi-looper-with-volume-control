@@ -1,19 +1,34 @@
-
 print('LOADING...')
 
 import pyaudio
 import numpy as np
 import time
 import os
-from gpiozero import LED, Button
-import tkinter as tk
+import tkinter as tk  # Add this line if you're using Tkinter
 from tkinter import Scale
+
+# Import RPi.GPIO for physical sliders (add this line if you're using physical sliders)
+import RPi.GPIO as GPIO
 
 #defining buttons and LEDs
 PLAYLEDS = (LED(2), LED(3), LED(4), LED(17))
 RECLEDS = (LED(27), LED(22), LED(10), LED(9))
 PLAYBUTTONS = (Button(11), Button(5), Button(6), Button(13))
 RECBUTTONS = (Button(19), Button(26), Button(21), Button(20))
+SLIDER_PINS = [21, 20, 16, 12]  # Replace with the actual GPIO pin numbers you are using
+
+# Set up GPIO pins as inputs
+for pin in SLIDER_PINS:
+    GPIO.setup(pin, GPIO.IN)
+
+# Function to update volume based on slider positions
+def update_volume():
+    for i, pin in enumerate(SLIDER_PINS):
+        position = GPIO.input(pin)  # Read the position of the slider
+        # Map the slider position to a volume level (adjust as needed)
+        volume = int((position / 1024) * 100)
+        loops[i].output_volume = volume / 100.0
+    updatevolume()  # Update the overall output volume
 
 #get configuration (audio settings etc.) from file
 settings_file = open('Config/settings.prt', 'r')
@@ -435,6 +450,14 @@ apply_button.pack()
 
 # Start the Tkinter main loop
 root.mainloop()
+
+# This while loop runs during the jam session.
+while not finished:
+    showstatus()
+    time.sleep(0.3)
+
+# Clean up GPIO pins
+GPIO.cleanup()
 
 pa.terminate()
 print('Done...')
